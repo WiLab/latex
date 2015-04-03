@@ -1,8 +1,7 @@
-function MakeFigureLatexReady()
+function MakeFigureLatexReady(figureName)
 
+% example input: 'baseline_occupancy_vs_collisions.fig';
 grid = 'on';
-%figureName = 'ss_result_GREAT3.fig';
-figureName = 'baseline_occupancy_vs_collisions.fig';
 dir = '';
 
 %%%%%%%%%%%%%%%%%%%
