@@ -1,4 +1,6 @@
 function MakeFigureLatexReady(figureName)
+% The purpose of this script is standardize MATLAB figures,
+% so they look neat and uniform for latex documents
 
 % example input: 'baseline_occupancy_vs_collisions.fig';
 grid = 'on';
