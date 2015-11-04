@@ -1,6 +1,12 @@
 function MakeFigureLatexReady(figureName)
-% The purpose of this script is standardize MATLAB figures,
+% The purpose of this function is standardize MATLAB figures
 % so they look neat and uniform for latex documents
+
+% Operation: provide a .fig file in the local folder.
+% If it is in a different directory edit the dir value below.
+% The function will produce a .eps file with the same name as
+% the original .fig file in the same directory.  You can also
+% change grid to 'off' to disable grids on figures
 
 % example input: 'baseline_occupancy_vs_collisions.fig';
 grid = 'on';
