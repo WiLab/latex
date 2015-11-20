@@ -34,10 +34,9 @@ fig.Children(index).Title.String = '';
 % Grid
 fig.Children(index).XGrid = grid;
 fig.Children(index).YGrid = grid;
+% Remove white borders
+set(gca,'LooseInset',get(gca,'TightInset'));
 % Save to eps
 filename = [figureName(1:end-3),'eps'];
-
-print('-depsc','-painters',[dir,filename]);
-
-
+print([dir,filename],'-depsc','-tiff');
 
