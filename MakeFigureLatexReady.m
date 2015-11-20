@@ -8,7 +8,7 @@ function MakeFigureLatexReady(figureName)
 % the original .fig file in the same directory.  You can also
 % change grid to 'off' to disable grids on figures
 
-% example input: 'baseline_occupancy_vs_collisions.fig';
+% example: MakeFigureLatexReady('baseline_occupancy_vs_collisions.fig')
 grid = 'on';
 dir = '';
 
