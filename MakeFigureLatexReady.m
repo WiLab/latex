@@ -35,8 +35,10 @@ fig.Children(index).Title.String = '';
 fig.Children(index).XGrid = grid;
 fig.Children(index).YGrid = grid;
 % Remove white borders
-set(gca,'LooseInset',get(gca,'TightInset'));
+fig.CurrentAxes.LooseInset = fig.CurrentAxes.TightInset;
+fig.PaperPositionMode = 'auto';% Ensure that the size of the saved figure is equal to the size of the figure on the display.
+fig_pos = fig.PaperPosition; 
+fig.PaperSize = [fig_pos(3) fig_pos(4)]; % Set the page size equal to the figure size to ensure that there is no extra whitespace.
 % Save to eps
 filename = [figureName(1:end-3),'eps'];
-print([dir,filename],'-depsc','-tiff');
-
+print(fig,[dir,filename],'-depsc','-tiff');
