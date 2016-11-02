@@ -35,7 +35,10 @@ fig.Children(index).Title.String = '';
 fig.Children(index).XGrid = grid;
 fig.Children(index).YGrid = grid;
 % Remove white borders
-fig.CurrentAxes.LooseInset = fig.CurrentAxes.TightInset;
+%x = fig.CurrentAxes.TightInset.*1; % Default tight widths
+x(3:4) = [0.09,0.09]; % Top and right border widths
+x(1:2) = [0.12,0.12]; % Bottom and left border widths
+fig.CurrentAxes.LooseInset = x;
 fig.PaperPositionMode = 'auto';% Ensure that the size of the saved figure is equal to the size of the figure on the display.
 fig_pos = fig.PaperPosition; 
 fig.PaperSize = [fig_pos(3) fig_pos(4)]; % Set the page size equal to the figure size to ensure that there is no extra whitespace.
