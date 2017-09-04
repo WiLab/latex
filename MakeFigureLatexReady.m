@@ -19,10 +19,16 @@ function MakeFigureLatexReady(figureName,varargin)
 % Defaults
 grid = 'on';
 dir = '';
-border = [0.09,0.09;0.12,0.12];
-
+border = [0.01,0.01;0.01,0.01];
+fontname = 'Arial';
+fontsize = 10;
+odir = dir;
+defaultFigureDimensions = [570   422];
 %%%%%%%%%%%%%%%%%%%
 % Checks
+if ~strcmp(figureName(end-3:end),'.fig') % Add extension if not there
+    figureName = [figureName,'.fig'];
+end
 if exist(figureName, 'file')~=2
     error('Figure file does not exist');
 end
@@ -35,7 +41,7 @@ nargs = length(vargs);
 names = vargs(1:2:nargs);
 values = vargs(2:2:nargs);
 
-validnames = {'grid','border','dir'}; 
+validnames = {'grid','border','dir','fontsize','fontname','outputdir','figdim'};
 
 for ind = 1:length(names)
     n = names{ind};
@@ -43,9 +49,19 @@ for ind = 1:length(names)
     validatestring(n, validnames);
     switch n
         case {'grid'}
-            grid = v;
+            grid = v; % Set grid | 'on','off'
         case {'border'}
-            border = v;
+            border = v; % Set border widths | [4x4 matrix]
+        case {'fontsize'}
+            fontsize = v; % Set font size | integer
+        case {'fontname'}
+            fontname = v; % Set font | use listfonts function to get available
+        case {'outputdir'}
+            odir = v; % Set output directory | String with trailing '/' (unix) or '\' (win)
+        case {'figdim'}
+            defaultFigureDimensions = v; % Set output dimension of figure | [1x2 matrix]
+        otherwise
+            warning(['Invalid argument ignored: ',num2str(num)]);
     end
 end
 
@@ -54,19 +70,18 @@ end
 fig = openfig(figureName);
 set(fig,'WindowStyle','normal'); %Undock
 % Figure Size
-defaultSize = [570   422];
-fig.Position(3:4) = defaultSize;
+fig.Position(3:4) = defaultFigureDimensions;
 % Font Sizes and Types
 if length(fig.Children)>1
     index = 2;%has a legend
 else
     index = 1;%no legend
 end
-fig.Children(index).FontSize = 10;
-fig.Children(index).XLabel.FontSize = 12;
-fig.Children(index).YLabel.FontSize = 12;
-fig.Children(index).XLabel.FontName = 'Arial'; 
-fig.Children(index).YLabel.FontName = 'Arial'; %'Helvetica'
+fig.Children(index).FontSize = fontsize;
+fig.Children(index).XLabel.FontSize = fontsize+2;
+fig.Children(index).YLabel.FontSize = fontsize+2;
+fig.Children(index).XLabel.FontName = fontname;
+fig.Children(index).YLabel.FontName = fontname; %'Helvetica'
 % Remove Title
 fig.Children(index).Title.String = '';
 % Grid
@@ -78,8 +93,10 @@ x(3:4) = border(1,:); % Top and right border widths
 x(1:2) = border(2,:); % Bottom and left border widths
 fig.CurrentAxes.LooseInset = x;
 fig.PaperPositionMode = 'auto';% Ensure that the size of the saved figure is equal to the size of the figure on the display.
-fig_pos = fig.PaperPosition; 
+fig_pos = fig.PaperPosition;
 fig.PaperSize = [fig_pos(3) fig_pos(4)]; % Set the page size equal to the figure size to ensure that there is no extra whitespace.
 % Save to eps
 filename = [figureName(1:end-3),'eps'];
-print(fig,[dir,filename],'-depsc','-tiff');
+print(fig,[odir,filename],'-depsc','-tiff');
+% Cleanup
+close(fig);
